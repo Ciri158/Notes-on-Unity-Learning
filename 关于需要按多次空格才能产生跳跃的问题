@@ -1,0 +1,4 @@
+若出现需要按多次空格才能实现跳跃并且跳跃的高度很小时，可以考虑是否在设置水平位移的时候是否为： Rb.velocity = new Vector2(xInput * MoveSpeed, 0);   这样的后果是强制角色只能水平移动：因为 Y 轴速度始终是 0，角色无法在垂直方向上移动或保持已有的垂直速度。
+正常应将0设置为Rb.velocity = new Vector2(xInput * MoveSpeed, Rb.velocity.y);  这样既可以保证水平速度更新为 xInput * MoveSpeed，决定角色水平移动速度，也可以保留当前垂直速度 Rb.velocity.y，不干扰跳跃或下落。
+之所以设置为0不行，是因为Rb.velocity = new Vector2(xInput * MoveSpeed, 0);  这个通常是在Update()函数中，这将意味着游戏每时每刻都在执行这个，那么当物体想要跳跃时，物体虽然会被下面的Rb.velocity = new Vector2(Rb.velocity.x, JumpForce); 赋予起跳，
+但是由于前面的0会使得物体在y轴方向上的移动会被迅速重置，这就是为什么当我们不断按空格时，物体会出现短暂的起跳。
