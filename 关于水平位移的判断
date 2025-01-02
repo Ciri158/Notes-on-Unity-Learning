@@ -1,0 +1,11 @@
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+        {
+            isMoving = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        {
+            isMoving = false;
+        }
+
+        //简单写法 （获取物体在 水平方向的速度值，若速度值！=0，则说明isMoving
+        bool isMoving = Rb.velocity.x != 0;
