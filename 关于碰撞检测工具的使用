@@ -1,0 +1,49 @@
+1. OnDrawGizmos
+作用：OnDrawGizmos 是 Unity 提供的一个方法，用于在编辑器中可视化对象的调试信息。
+这段代码中用 Gizmos.DrawLine 绘制射线，以帮助开发者直观了解检测区域或方向。
+protected virtual void OnDrawGizmos()
+{
+    // 在角色脚下绘制一条向下的射线，用于可视化检测地面的范围
+    Gizmos.DrawLine(GroundCheck.position, new Vector3(GroundCheck.position.x, GroundCheck.position.y - GroundCheckDistance));
+    
+    // 在角色前方绘制一条水平射线，用于可视化检测墙壁的范围
+    Gizmos.DrawLine(WallCheck.position, new Vector3(WallCheck.position.x + WallCheckDistance * facingDir, WallCheck.position.y));
+}
+
+具体实现细节：
+
+地面检测射线：
+从 GroundCheck 的位置开始，向下绘制一条射线，长度为 GroundCheckDistance。
+这条射线模拟了地面检测范围，可用于判断角色是否接触到地面。
+
+墙壁检测射线：
+从 WallCheck 的位置开始，向角色面朝方向绘制一条射线，长度为 WallCheckDistance。
+乘以 facingDir 是为了让射线的方向随角色转向变化。facingDir 通常为 1（朝右）或 -1（朝左）。
+
+
+
+2. CollisionChecks
+作用：CollisionChecks 方法通过 Physics2D.Raycast 检测角色是否碰到地面或墙壁，主要用于逻辑判断。
+protected virtual void CollisionChecks()
+{
+    // 检测是否接触到地面
+    IsGrounded = Physics2D.Raycast(GroundCheck.position, Vector2.down, GroundCheckDistance, WhatIsGround);
+    
+    // 检测是否碰到墙壁
+    IsWallDetected = Physics2D.Raycast(WallCheck.position, Vector2.right, WallCheckDistance, WhatIsGround);
+}
+
+具体实现细节：
+
+地面检测：
+使用 Physics2D.Raycast 从 GroundCheck.position 向下发射一条射线（方向为 Vector2.down），检测是否与地面碰撞。
+GroundCheckDistance 定义了射线的长度。
+WhatIsGround 是一个图层掩码，用于指定哪些物体被视为地面（例如地形、平台等）。
+
+墙壁检测：
+使用 Physics2D.Raycast 从 WallCheck.position 向角色面朝方向（Vector2.right）发射一条射线，检测是否与墙壁碰撞。
+WallCheckDistance 定义了射线的长度。
+WhatIsGround 再次指定检测对象的图层。
+
+因此
+OnDrawGizmos 的主要作用就是将 CollisionChecks 中的射线检测逻辑通过可视化呈现出来，方便开发者在 Unity 编辑器中直接观察射线的范围和方向是否符合预期。
