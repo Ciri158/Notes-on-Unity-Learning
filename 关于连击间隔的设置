@@ -1,0 +1,5 @@
+先设置一个连击间隔时间lastTimeAttacked 
+当第一个招式动画播放完毕后，令lastTimeAttacked = Time.time;
+然后再设置一个连击重置所需时间comboWindow
+然后Time.time >= lastTimeAttacked + comboWindow
+这样实质上便是招式动画播放完毕后的comboWindow秒便会重置连击
