@@ -1,0 +1,16 @@
+主要是因为在进行连击的过程中，每个攻击的切换之间却在间隔，这个间隔可能会导致
+动画进入移动状态或其他状态，从而出现连击过程中按方向键出现滑行，因此可考虑在
+进入该状态的判断语句中增加相对应的语句，比如可增加携程函数IEnumerato，通过延时功能和bool条件
+例子：
+public IEnumerator BusyFor(float _seconds)  //加入携程，主要是为了在执行某些动画时，点击移动会出现滑行现象
+{
+    isBusy = true;
+    yield return new WaitForSeconds(_seconds);  //等待一段时间后继续进入其他state
+    isBusy = false;
+}
+
+
+if (xInput != 0 && !player.isBusy)  //X方向输入不为0，并且状态不处于忙碌时（增加此判断后连续攻击才不会出现滑行）
+{
+    stateMachine.ChangeState(player.moveState);
+}
