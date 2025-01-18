@@ -1,0 +1,4 @@
+public 能够自动初始化 ， 在inspector面板中能显示
+private 不能自动初始化 ， 在inspector面板中不能显示
+[SerializeField] private 能自动初始化 ， 在inspector面板中能显示
+因此需要注意字段的实例化与否
