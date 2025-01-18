@@ -1,0 +1,19 @@
+范围检测，常用于反弹、弹射等效果
+Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10); //以当前对象中心为圆心，半径为10扫描范围内所有碰撞体并存储
+
+优化：
+可以添加 LayerMask 来优化 Physics2D.OverlapCircleAll 的检测，避免不必要的碰撞体检测。
+LayerMask enemyLayer = LayerMask.GetMask("Enemy");
+Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10, enemyLayer);
+
+可以对 enemyTarget 列表进行去重，防止多次添加相同的 Enemy 目标。
+foreach (var hit in colliders)
+{
+    if (hit.GetComponent<Enemy>()!= null)
+    {
+        if (!enemyTarget.Contains(hit.transform))
+        {
+            enemyTarget.Add(hit.transform);
+        }
+    }
+}
