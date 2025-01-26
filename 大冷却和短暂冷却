@@ -1,0 +1,9 @@
+if (crystalList.Count == maximumCrystalHoldings)
+     Invoke("ResetAbility", shortCoolingTime);  	// 只有当水晶补充到最大值后，并且玩家还在逐步释放时才触发短冷却
+cooldown = 0;       //目的是能够一次性释放完所有水晶
+
+if(crystalList.Count <= 0)
+{
+   cooldown = fullCoolingTime;   // 一次性使用完所有水晶，进入大冷却时间
+   RefillCrystal();        
+}
